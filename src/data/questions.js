@@ -9,7 +9,6 @@ export async function fetchQuestions() {
       throw new Error('Network response was not ok ' + response.statusText);
     }
     const data = await response.json();
-    console.log(data);
     return data.values.map(row => ({
       id: parseInt(row[0], 10),
       question: row[1],

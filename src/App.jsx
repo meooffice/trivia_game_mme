@@ -10,6 +10,7 @@ import FiftyFifty from './data/FiftyFifty'; // Update import path if needed
 import Phone from './data/Phone'; // Update import path if needed
 import Audience from './data/Audience'; // Update import path if needed
 
+require('dotenv').config();
 function App() {
   const [userName, setUserName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
