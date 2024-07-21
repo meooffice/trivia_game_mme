@@ -6,10 +6,10 @@ import Timer from "./components/Timer";
 import Start from "./components/Start";
 import { Earned } from "./components/Earned";
 import { fetchQuestions } from './data/questions';
-import FiftyFifty from './data/FiftyFifty';
-import Phone from './data/Phone';
-import Audience from './data/Audience';
-import PlayPauseButton from './components/PlayPauseButton'; // Import the PlayPauseButton component
+import FiftyFifty from './components/FiftyFifty';
+import Phone from './components/Phone';
+import Audience from './components/Audience';
+//import PlayPauseButton from './components/PlayPauseButton'; // Import the PlayPauseButton component
 
 function App() {
   const [userName, setUserName] = useState(null);
@@ -72,9 +72,13 @@ function App() {
     setIsAudienceUsed(true);
   };
 
+  const toggleTimer = (play) => {
+    setIsPlaying(play);
+  };
+
   const enterFullScreen = () => {
     const element = document.documentElement;
-  
+
     try {
       if (element.requestFullscreen) {
         console.log('Requesting fullscreen...');
@@ -100,13 +104,6 @@ function App() {
     setUserName(name);
     setTimeout(enterFullScreen, 0);
   };
-
-  const togglePlayPause = () => {
-    setIsPlaying(prev => !prev);
-  };
-  const handlePlayPauseToggle = () => {
-    setIsPlaying(prev => !prev);
-};
 
   return (
     <div className="app">
@@ -145,11 +142,13 @@ function App() {
               ))}
             </ul>
           </div>
-          <div className="lifelines">
-            <FiftyFifty useFiftyFifty={useFiftyFifty} isUsed={isFiftyFiftyUsed} />
-            <Phone usePhone={usePhone} isUsed={isPhoneUsed} />
-            <Audience useAudience={useAudience} isUsed={isAudienceUsed} />
-          </div>
+          {!stop && ( // Conditionally render lifeline buttons
+            <div className="lifelines">
+              <FiftyFifty useFiftyFifty={useFiftyFifty} isUsed={isFiftyFiftyUsed} />
+              <Phone usePhone={usePhone} isUsed={isPhoneUsed} />
+              <Audience useAudience={useAudience} isUsed={isAudienceUsed} toggleTimer={toggleTimer} />
+            </div>
+          )}
         </>
       ) : (
         <Start setUserName={handleStart} userName={userName} />

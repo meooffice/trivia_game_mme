@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, List, Typography, Spin } from 'antd';
 import './Audience.css'; // Import your CSS file
 
@@ -22,16 +22,17 @@ const books = [
   }
 ];
 
-const Audience = () => {
+const Audience = ({ useAudience, isUsed, toggleTimer }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPreviewModalVisible, setIsPreviewModalVisible] = useState(false);
   const [selectedBookLink, setSelectedBookLink] = useState('');
-  const [hasUsedAudience, setHasUsedAudience] = useState(false);
+  const [hasUsedAudience, setHasUsedAudience] = useState(isUsed);
   const [loadingPreview, setLoadingPreview] = useState(false); // Track loading state
 
   const showModal = () => {
     if (hasUsedAudience) return; // Prevent showing modal if already used
 
+    toggleTimer(false); // Pause the timer
     setIsModalVisible(true);
 
     // Countdown logic
@@ -61,6 +62,7 @@ const Audience = () => {
     if (!hasUsedAudience) {
       setHasUsedAudience(true); // Mark as used
     }
+    toggleTimer(true); // Resume the timer
   };
 
   const handlePreviewClose = () => {
