@@ -10,7 +10,7 @@ import FiftyFifty from './data/FiftyFifty'; // Update import path if needed
 import Phone from './data/Phone'; // Update import path if needed
 import Audience from './data/Audience'; // Update import path if needed
 
-require('dotenv').config();
+
 function App() {
   const [userName, setUserName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
@@ -73,21 +73,38 @@ function App() {
 
   const enterFullScreen = () => {
     const element = document.documentElement;
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) { // Firefox
-      element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
-      element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) { // IE/Edge
-      element.msRequestFullscreen();
+  
+    try {
+      if (element.requestFullscreen) {
+        console.log('Requesting fullscreen...');
+        element.requestFullscreen().catch((err) => console.error('Error requesting fullscreen:', err));
+      } else if (element.mozRequestFullScreen) { // Firefox
+        console.log('Requesting fullscreen (Firefox)...');
+        element.mozRequestFullScreen().catch((err) => console.error('Error requesting fullscreen (Firefox):', err));
+      } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
+        console.log('Requesting fullscreen (Webkit)...');
+        element.webkitRequestFullscreen().catch((err) => console.error('Error requesting fullscreen (Webkit):', err));
+      } else if (element.msRequestFullscreen) { // IE/Edge
+        console.log('Requesting fullscreen (IE/Edge)...');
+        element.msRequestFullscreen().catch((err) => console.error('Error requesting fullscreen (IE/Edge):', err));
+      } else {
+        console.error('Full-Screen API is not supported.');
+      }
+    } catch (error) {
+      console.error('Failed to enter fullscreen:', error);
     }
   };
+  
+  
+  
 
   const handleStart = (name) => {
     setUserName(name);
-    enterFullScreen();
+    // Ensure enterFullScreen is triggered by user gesture
+    setTimeout(enterFullScreen, 0);
   };
+  
+  
 
   return (
     <div className="app">
