@@ -6,10 +6,10 @@ import Timer from "./components/Timer";
 import Start from "./components/Start";
 import { Earned } from "./components/Earned";
 import { fetchQuestions } from './data/questions';
-import FiftyFifty from './data/FiftyFifty'; // Update import path if needed
-import Phone from './data/Phone'; // Update import path if needed
-import Audience from './data/Audience'; // Update import path if needed
-
+import FiftyFifty from './data/FiftyFifty';
+import Phone from './data/Phone';
+import Audience from './data/Audience';
+import PlayPauseButton from './components/PlayPauseButton'; // Import the PlayPauseButton component
 
 function App() {
   const [userName, setUserName] = useState(null);
@@ -20,7 +20,8 @@ function App() {
   const [isFiftyFiftyUsed, setIsFiftyFiftyUsed] = useState(false);
   const [isPhoneUsed, setIsPhoneUsed] = useState(false);
   const [isAudienceUsed, setIsAudienceUsed] = useState(false);
-  const [resetTimer, setResetTimer] = useState(false); // Add state to manage timer reset
+  const [resetTimer, setResetTimer] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true); // Add state to manage play/pause
 
   const MoneyPyramidData = useMemo(() => MoneyPyramid, []);
 
@@ -29,10 +30,6 @@ function App() {
       setQuestions(fetchedQuestions);
     });
   }, []);
-
-
-
-// jygud
 
   useEffect(() => {
     if (questions.length && questionNumber <= questions.length) {
@@ -68,7 +65,7 @@ function App() {
 
   const usePhone = () => {
     setIsPhoneUsed(true);
-    setResetTimer(true); // Set the timer reset state to true
+    setResetTimer(true);
   };
 
   const useAudience = () => {
@@ -98,17 +95,18 @@ function App() {
       console.error('Failed to enter fullscreen:', error);
     }
   };
-  
-  
-  
 
   const handleStart = (name) => {
     setUserName(name);
-    // Ensure enterFullScreen is triggered by user gesture
     setTimeout(enterFullScreen, 0);
   };
-  
-  
+
+  const togglePlayPause = () => {
+    setIsPlaying(prev => !prev);
+  };
+  const handlePlayPauseToggle = () => {
+    setIsPlaying(prev => !prev);
+};
 
   return (
     <div className="app">
@@ -121,7 +119,14 @@ function App() {
               <>
                 <div className="top">
                   <div className="timer">
-                    <Timer setStop={setStop} questionNumber={questionNumber} resetTimer={resetTimer} setResetTimer={setResetTimer} />
+                    <Timer 
+                      setStop={setStop}
+                      questionNumber={questionNumber}
+                      resetTimer={resetTimer}
+                      setResetTimer={setResetTimer}
+                      isPlaying={isPlaying}
+                      setIsPlaying={setIsPlaying} // Pass isPlaying to Timer
+                    />
                   </div>
                 </div>
                 <div className="bottom">
