@@ -30,6 +30,8 @@ function App() {
     });
   }, []);
 
+// jygud
+
   useEffect(() => {
     if (questions.length && questionNumber <= questions.length) {
       setEarned(MoneyPyramid.find((m) => m.id === questionNumber - 1)?.amount || "0");
