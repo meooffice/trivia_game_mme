@@ -36,7 +36,7 @@ const Audience = ({ useAudience, isUsed, toggleTimer }) => {
     setIsModalVisible(true);
 
     // Countdown logic
-    let secondsToGo = 60;
+    let secondsToGo = 600;
 
     const timer = setInterval(() => {
       secondsToGo -= 1;
