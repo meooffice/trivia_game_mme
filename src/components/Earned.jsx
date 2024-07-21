@@ -24,7 +24,7 @@ export const Earned = ({ earned, setEarned, setUserName, userName, setStop, setQ
                 earned < 8000 ?
                     <div className='earnedContent'>
                         <div className="content">
-                            <h3 className="endText">You Earned: ${convert(earned)}</h3>
+                            <h3 className="endText">You Earned: ₹{convert(earned)}</h3>
                             <button onClick={handleClick} className='tryAgain'>Try Again</button>
                         </div>
                     </div>
@@ -32,7 +32,7 @@ export const Earned = ({ earned, setEarned, setUserName, userName, setStop, setQ
                     <div className='earnedContent congrats'>
                         <div className="content">
                             <h1 className='endText'>Congratulations {userName}</h1>
-                            <h3 className="endText">You Earned: ${convert(earned)}</h3>
+                            <h3 className="endText">You Earned: ₹{convert(earned)}</h3>
                             <button onClick={handleClick} className='tryAgain'>Restart</button>
                         </div>
                     </div>

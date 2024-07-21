@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export default function Timer({ setStop, questionNumber }) {
-    const [timer, setTimer] = useState(30);
+export default function Timer({ setStop, questionNumber, resetTimer, setResetTimer }) {
+    const [timer, setTimer] = useState(120);
 
     useEffect(() => {
         // if the timer elapses, stop the quiz 
@@ -14,8 +14,17 @@ export default function Timer({ setStop, questionNumber }) {
     }, [setStop, timer]);
 
     useEffect(() => {
-        // if the question number changes, the timer will be set to 30 
-        setTimer(30)
-    }, [questionNumber])
+        // if the question number changes, the timer will be set to 120
+        setTimer(120);
+    }, [questionNumber]);
+
+    useEffect(() => {
+        // if resetTimer is true, reset the timer
+        if (resetTimer) {
+            setTimer(120);
+            setResetTimer(false);
+        }
+    }, [resetTimer, setResetTimer]);
+
     return timer;
 }
