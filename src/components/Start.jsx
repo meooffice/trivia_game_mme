@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { GithubLogo } from "phosphor-react";
+
 import useSound from "use-sound";
 import game from "../assets/main.mp3";
 
@@ -39,11 +39,6 @@ export default function Start({ setUserName, userName }) {
     return (
         <div className='start'>
             <div className="content">
-                <div className="github">
-                    <a href="https://github.com/Signo" target='_blank' rel='noreferrer'>
-                        <GithubLogo size={2} />
-                    </a>
-                </div>
                 <div className="wrapper">
                     <label>Enter Your Username To Start </label>
                     <input type="text" placeholder='Enter Your Username' className='startInput' ref={inputRef} onFocus={() => playGame()} />
