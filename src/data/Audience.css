@@ -1,0 +1,15 @@
+.custom-modal .ant-modal-body {
+    height: 600px; /* Set a fixed height */
+    overflow-y: auto; /* Make the content scrollable */
+}
+/* Ensure the preview modal has a higher z-index */
+.ant-modal-preview {
+    z-index: 1050 !important; /* Higher than the default z-index of other modals */
+  }
+  
+  /* Default z-index of Ant Design modals (you can adjust if needed) */
+  .ant-modal-success {
+    z-index: 1000 !important; /* Ensure this is lower than preview modal */
+  }
+  
+  
