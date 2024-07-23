@@ -1,4 +1,5 @@
 export const MoneyPyramid = [
+  
   { id: 1, amount: "2" },
   { id: 2, amount: "3" },
   { id: 3, amount: "5" },
@@ -14,4 +15,5 @@ export const MoneyPyramid = [
   { id: 13, amount: "2000" },
   { id: 14, amount: "3000" },
   { id: 15, amount: "5000" },
+  
 ].reverse();

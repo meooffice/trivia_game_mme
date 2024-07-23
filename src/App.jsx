@@ -9,7 +9,6 @@ import { fetchQuestions } from './data/questions';
 import FiftyFifty from './components/FiftyFifty';
 import Phone from './components/Phone';
 import Audience from './components/Audience';
-//import PlayPauseButton from './components/PlayPauseButton'; // Import the PlayPauseButton component
 
 function App() {
   const [userName, setUserName] = useState(null);
@@ -21,7 +20,7 @@ function App() {
   const [isPhoneUsed, setIsPhoneUsed] = useState(false);
   const [isAudienceUsed, setIsAudienceUsed] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true); // Add state to manage play/pause
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const MoneyPyramidData = useMemo(() => MoneyPyramid, []);
 
@@ -122,12 +121,12 @@ function App() {
                       resetTimer={resetTimer}
                       setResetTimer={setResetTimer}
                       isPlaying={isPlaying}
-                      setIsPlaying={setIsPlaying} // Pass isPlaying to Timer
+                      setIsPlaying={setIsPlaying}
                     />
                   </div>
                 </div>
                 <div className="bottom">
-                  <Trivia setStop={setStop} setQuestionNumber={setQuestionNumber} questionNumber={questionNumber} questions={questions} />
+                  <Trivia setStop={setStop} setQuestionNumber={setQuestionNumber} questionNumber={questionNumber} questions={questions} setEarned={setEarned} />
                 </div>
               </>
             )}
@@ -142,7 +141,7 @@ function App() {
               ))}
             </ul>
           </div>
-          {!stop && ( // Conditionally render lifeline buttons
+          {!stop && (
             <div className="lifelines">
               <FiftyFifty useFiftyFifty={useFiftyFifty} isUsed={isFiftyFiftyUsed} />
               <Phone usePhone={usePhone} isUsed={isPhoneUsed} />

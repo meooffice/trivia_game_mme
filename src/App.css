@@ -481,7 +481,8 @@
   }
   
   .lifeline:hover {
-    background: mediumblue; /* Add a hover effect */
+    background: rgb(242, 242, 245); /* Add a hover effect */
+    border: 5px solid rgb(94, 94, 229);
   }
   
   .symbol {
@@ -490,7 +491,8 @@
     justify-content: center;
   }
   .lifeline.used {
-    background: rgb(197, 74, 74);
+    background: rgb(222, 146, 146);
+    border: 5px solid rgb(161, 19, 59);
     cursor: not-allowed;
   }
   

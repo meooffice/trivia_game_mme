@@ -5,40 +5,29 @@ import correct from "../assets/sounds_correct.mp3";
 import wrong from "../assets/sounds_wrong.mp3";
 import bgm from "../assets/bgm.mp3"; // Import the background music file
 
-export default function Trivia({ setStop, setQuestionNumber, questionNumber, questions }) {
-    // state for a single question 
+export default function Trivia({ setStop, setQuestionNumber, questionNumber, questions, setEarned }) {
     const [question, setQuestion] = useState(null);
-    // state for the selected answer
     const [selectedAnswer, setSelectedAnswer] = useState(null);
-    // state for the class names that cause animation on the selected option
     const [className, setClassName] = useState("answer");
 
-    // sound for correct answer
     const [correctAnswer] = useSound(correct);
-    // sound for wrong answer
     const [wrongAnswer] = useSound(wrong);
-    // initial sound for the start of the quiz
     const [letsPlay] = useSound(play);
-    // background music
     const [playBGM, { stop: stopBGM }] = useSound(bgm, { loop: true });
 
     useEffect(() => {
-        // play the initial sound and background music on component mount
         letsPlay();
         playBGM();
         
-        // Cleanup on unmount
         return () => {
             stopBGM();
         };
     }, [letsPlay, playBGM, stopBGM]);
 
     useEffect(() => {
-        // setting the question from the list of questions
         setQuestion(questions[questionNumber - 1]);
     }, [questionNumber, questions]);
 
-    // Custom function for timeout with duration and a callback function as parameters
     const delay = (duration, callback) => {
         setTimeout(() => {
             callback();
@@ -53,13 +42,18 @@ export default function Trivia({ setStop, setQuestionNumber, questionNumber, que
             if (a.correct) {
                 correctAnswer();
                 delay(1000, () => {
-                    if (questions.length !== questionNumber) {
-                        setQuestionNumber(prev => prev + 1);
-                        setSelectedAnswer(null);
-                    } else {
+                    if (questionNumber === 15) {
+                        setEarned("5000");
                         setStop(true);
-                        setQuestionNumber(1);
-                        setSelectedAnswer(null);
+                    } else {
+                        if (questions.length !== questionNumber) {
+                            setQuestionNumber(prev => prev + 1);
+                            setSelectedAnswer(null);
+                        } else {
+                            setStop(true);
+                            setQuestionNumber(1);
+                            setSelectedAnswer(null);
+                        }
                     }
                 });
             } else {
@@ -77,7 +71,7 @@ export default function Trivia({ setStop, setQuestionNumber, questionNumber, que
             <div className="answers">
                 {
                     question?.answers
-                        .filter(a => !a.removed) // Filter out removed answers
+                        .filter(a => !a.removed)
                         .map((a) => (
                             <div 
                                 key={a.text} 
