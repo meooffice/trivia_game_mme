@@ -16,7 +16,7 @@ function App() {
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const APP_PASSWORD = "secret123"; // Change this password as needed
+  const APP_PASSWORD = "secret123";
 
   const [userName, setUserName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
@@ -122,33 +122,34 @@ function App() {
     setTimeout(enterFullScreen, 0);
   };
 
- if (!isAuthenticated) {
-  return (
-    <div className="auth-screen">
-      <img src={gifImage} alt="Loading animation" className="auth-gif" />
-      <h2>Enter Password to Start</h2>
-      <input
-        type="password"
-        placeholder="Password"
-        value={passwordInput}
-        onChange={(e) => setPasswordInput(e.target.value)}
-      />
-      <button
-        onClick={() => {
-          if (passwordInput === APP_PASSWORD) {
-            setIsAuthenticated(true);
-            setPasswordError("");
-          } else {
-            setPasswordError("Incorrect password");
-          }
-        }}
-      >
-        Submit
-      </button>
-      {passwordError && <p>{passwordError}</p>}
-    </div>
-  );
-}
+  if (!isAuthenticated) {
+    return (
+      <div className="auth-screen">
+        <img src={gifImage} alt="Loading animation" className="auth-gif" />
+        <h2>Enter Password to Start</h2>
+        <input
+          type="password"
+          placeholder="Password"
+          value={passwordInput}
+          onChange={(e) => setPasswordInput(e.target.value)}
+        />
+        <button
+          onClick={() => {
+            if (passwordInput === APP_PASSWORD) {
+              setIsAuthenticated(true);
+              setPasswordError("");
+            } else {
+              setPasswordError("Incorrect password");
+            }
+          }}
+        >
+          Submit
+        </button>
+        {passwordError && <p>{passwordError}</p>}
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       {userName ? (
@@ -184,6 +185,7 @@ function App() {
                     questionNumber={questionNumber}
                     questions={questions}
                     setEarned={setEarned}
+                    setIsPlaying={setIsPlaying} // pass control
                   />
                 </div>
               </>

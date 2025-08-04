@@ -1,0 +1,27 @@
+.floating-next-button {
+  position: fixed;
+  top: 20px;      /* space from top */
+  left: 20px;     /* space from left */
+  z-index: 1000;
+}
+.next-button {
+  position: fixed;
+  bottom: 20px;        /* You can also use top: 20px; */
+  right: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.next-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  color: #fff;
+}
