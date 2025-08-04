@@ -502,4 +502,98 @@
   .lifeline .symbol {
     font-size: 30px;
   }
-  
+  .auth-screen {
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #0f0f1f 0%, #000014 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #a3e4ff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 1.5s ease-out;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-screen h2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px #6feeff, 0 0 25px #a3e4ff;
+  letter-spacing: 1.5px;
+  color: #b0f0ff;
+}
+
+.auth-screen input {
+  padding: 14px 20px;
+  font-size: 18px;
+  width: 280px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #1a1a2e;
+  color: #e6f7ff;
+  border: 2px solid #52d1ff;
+  text-align: center;
+  box-shadow: 0 0 10px #52d1ff;
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.auth-screen input:focus {
+  box-shadow: 0 0 20px #52d1ff, 0 0 30px #b3f0ff;
+}
+
+.auth-screen button {
+  padding: 14px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #0077ff, #00c6ff);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 20px #00c6ff, 0 0 30px #0077ff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-screen button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #00e6ff, 0 0 40px #80faff;
+}
+
+.auth-screen p {
+  margin-top: 10px;
+  color: #ff4d4f;
+  font-weight: 600;
+  font-size: 16px;
+  text-shadow: 0 0 5px #ff4d4f;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.auth-gif {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 15px;
+  object-fit: contain;
+  animation: floatGif 2s ease-in-out infinite alternate;
+}
+
+@keyframes floatGif {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}

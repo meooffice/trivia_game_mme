@@ -9,6 +9,7 @@ import { fetchQuestions } from "./data/questions";
 import FiftyFifty from "./components/FiftyFifty";
 import Phone from "./components/Phone";
 import Audience from "./components/Audience";
+import gifImage from "./assets/giff.gif";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -121,33 +122,33 @@ function App() {
     setTimeout(enterFullScreen, 0);
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="auth-screen">
-        <h2>Enter Password to Start</h2>
-        <input
-          type="password"
-          placeholder="Password"
-          value={passwordInput}
-          onChange={(e) => setPasswordInput(e.target.value)}
-        />
-        <button
-          onClick={() => {
-            if (passwordInput === APP_PASSWORD) {
-              setIsAuthenticated(true);
-              setPasswordError("");
-            } else {
-              setPasswordError("Incorrect password");
-            }
-          }}
-        >
-          Submit
-        </button>
-        {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
-      </div>
-    );
-  }
-
+ if (!isAuthenticated) {
+  return (
+    <div className="auth-screen">
+      <img src={gifImage} alt="Loading animation" className="auth-gif" />
+      <h2>Enter Password to Start</h2>
+      <input
+        type="password"
+        placeholder="Password"
+        value={passwordInput}
+        onChange={(e) => setPasswordInput(e.target.value)}
+      />
+      <button
+        onClick={() => {
+          if (passwordInput === APP_PASSWORD) {
+            setIsAuthenticated(true);
+            setPasswordError("");
+          } else {
+            setPasswordError("Incorrect password");
+          }
+        }}
+      >
+        Submit
+      </button>
+      {passwordError && <p>{passwordError}</p>}
+    </div>
+  );
+}
   return (
     <div className="app">
       {userName ? (
