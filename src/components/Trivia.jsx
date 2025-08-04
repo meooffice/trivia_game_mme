@@ -3,7 +3,7 @@ import useSound from "use-sound";
 import play from "../assets/sounds_play.mp3";
 import correct from "../assets/sounds_correct.mp3";
 import wrong from "../assets/sounds_wrong.mp3";
-import bgm from "../assets/bgm.mp3"; // Import the background music file
+import bgm from "../assets/Timer.mp3"; // Import the background music file
 
 export default function Trivia({ setStop, setQuestionNumber, questionNumber, questions, setEarned }) {
     const [question, setQuestion] = useState(null);

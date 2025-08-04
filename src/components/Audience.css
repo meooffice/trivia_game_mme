@@ -1,15 +1,48 @@
-.custom-modal .ant-modal-body {
-    height: 600px; /* Set a fixed height */
-    overflow-y: auto; /* Make the content scrollable */
+.call-modal .ant-modal-content {
+  height: 350px;
+  background: linear-gradient(145deg, #1f4037, #99f2c8);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
-/* Ensure the preview modal has a higher z-index */
-.ant-modal-preview {
-    z-index: 1050 !important; /* Higher than the default z-index of other modals */
+
+.modal-content {
+  text-align: center;
+}
+
+.modal-content h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.calling-animation span {
+  font-size: 32px;
+  animation: blink 1.5s infinite;
+  margin: 0 3px;
+  opacity: 0.5;
+}
+
+.calling-animation span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.calling-animation span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0.2;
   }
-  
-  /* Default z-index of Ant Design modals (you can adjust if needed) */
-  .ant-modal-success {
-    z-index: 1000 !important; /* Ensure this is lower than preview modal */
+  40% {
+    opacity: 1;
   }
-  
-  
+}
+
+.countdown {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
