@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import useSound from "use-sound";
 import play from "../assets/sounds_play.mp3";
 import correct from "../assets/sounds_correct.mp3";
 import wrong from "../assets/sounds_wrong.mp3";
 import bgm from "../assets/Timer.mp3";
-import "./Trivia.css"; // Import the CSS for styling
-
+import QuestionBoard from "./QuestionBoard";
 
 export default function Trivia({
   setStop,
@@ -13,7 +12,8 @@ export default function Trivia({
   questionNumber,
   questions,
   setEarned,
-  setTimerActive // ✅ Receive timer controller from parent
+  setIsPlaying,
+  onStateChange   // 🔥 NEW PROP
 }) {
   const [question, setQuestion] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -21,6 +21,7 @@ export default function Trivia({
   const [answersDisabled, setAnswersDisabled] = useState(false);
   const [clickedOnce, setClickedOnce] = useState(false);
   const [showNext, setShowNext] = useState(false);
+  const [showCorrect, setShowCorrect] = useState(false);
 
   const [correctAnswer] = useSound(correct);
   const [wrongAnswer] = useSound(wrong);
@@ -30,10 +31,7 @@ export default function Trivia({
   useEffect(() => {
     letsPlay();
     playBGM();
-
-    return () => {
-      stopBGM();
-    };
+    return () => stopBGM();
   }, [letsPlay, playBGM, stopBGM]);
 
   useEffect(() => {
@@ -43,8 +41,23 @@ export default function Trivia({
     setClickedOnce(false);
     setClassName("answer");
     setShowNext(false);
-    if (setTimerActive) setTimerActive(true); // ✅ Resume timer for new question
-  }, [questionNumber, questions, setTimerActive]);
+    setShowCorrect(false);
+    if (setIsPlaying) setIsPlaying(true);
+  }, [questionNumber, questions, setIsPlaying]);
+
+  // 🔥 SEND STATE TO APP FOR AUDIENCE
+  useEffect(() => {
+    if (onStateChange) {
+      onStateChange({
+        question,
+        selectedAnswer,
+        className,
+        showNext,
+        showCorrect,
+        answersDisabled
+      });
+    }
+  }, [question, selectedAnswer, className, showNext, showCorrect, answersDisabled, onStateChange]);
 
   const delay = (duration, callback) => {
     setTimeout(callback, duration);
@@ -54,21 +67,44 @@ export default function Trivia({
     if (answersDisabled) return;
 
     if (selectedAnswer === a && clickedOnce) {
+      if (setIsPlaying) setIsPlaying(false);
+
       setClassName("answer active");
       setAnswersDisabled(true);
-      delay(3000, () => setClassName(a.correct ? "answer correct" : "answer wrong"));
-      delay(5000, () => {
-        if (a.correct) {
+
+      if (a.correct) {
+
+        delay(3000, () => {
+          setClassName("answer correct");
+        });
+
+        delay(5000, () => {
           correctAnswer();
-          setShowNext(true); // ✅ Show play button
-          if (setTimerActive) setTimerActive(false); // ✅ Stop timer
-        } else {
-          wrongAnswer();
-          delay(1000, () => {
+
+          if (questionNumber === questions.length) {
+            setEarned("5000");
             setStop(true);
-          });
-        }
-      });
+          } else {
+            setShowNext(true);
+          }
+        });
+
+      } else {
+
+        delay(3000, () => {
+          setClassName("answer wrong");
+        });
+
+        delay(4500, () => {
+          setShowCorrect(true);
+          wrongAnswer();
+        });
+
+        delay(5500, () => {
+          setShowNext(true);
+        });
+      }
+
     } else {
       setSelectedAnswer(a);
       setClickedOnce(true);
@@ -78,47 +114,29 @@ export default function Trivia({
 
   const handleNext = () => {
     setShowNext(false);
-    if (questionNumber === 15) {
-      setEarned("5000");
-      setStop(true);
-    } else {
+
+    if (selectedAnswer?.correct) {
       if (questions.length !== questionNumber) {
         setQuestionNumber(prev => prev + 1);
       } else {
         setStop(true);
-        setQuestionNumber(1);
       }
+    } else {
+      setStop(true);
     }
   };
 
   return (
-    <div className='trivia'>
-      <div className="question">{question?.question}</div>
-      <div className="answers">
-        {
-          question?.answers
-            .filter(a => !a.removed)
-            .map((a) => (
-              <div
-                key={a.text}
-                className={`${selectedAnswer === a ? className : "answer"}`}
-                onClick={() => handleClick(a)}
-                style={{ pointerEvents: answersDisabled ? 'none' : 'auto' }}
-              >
-                {a.text}
-              </div>
-            ))
-        }
-      </div>
-
-      {/* ✅ Floating play-style next button */}
-      {showNext && (
-        <div className="floating-next-button">
-          <button className="next-play-button" onClick={handleNext}>
-            ▶
-          </button>
-        </div>
-      )}
-    </div>
+    <QuestionBoard
+      question={question}
+      selectedAnswer={selectedAnswer}
+      className={className}
+      showCorrect={showCorrect}
+      showNext={showNext}
+      answersDisabled={answersDisabled}
+      onAnswerClick={handleClick}
+      onNextClick={handleNext}
+      isClickable={true}
+    />
   );
 }

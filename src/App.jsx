@@ -185,7 +185,7 @@ function App() {
                     questionNumber={questionNumber}
                     questions={questions}
                     setEarned={setEarned}
-                    setIsPlaying={setIsPlaying} // pass control
+                    setIsPlaying={setIsPlaying}   // ✅ correct prop
                   />
                 </div>
               </>
