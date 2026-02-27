@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+// Trivia.jsx
+import React, { useEffect, useState } from 'react';
 import useSound from "use-sound";
 import play from "../assets/sounds_play.mp3";
 import correct from "../assets/sounds_correct.mp3";
 import wrong from "../assets/sounds_wrong.mp3";
 import bgm from "../assets/Timer.mp3";
-import QuestionBoard from "./QuestionBoard";
+import "./Trivia.css";
 
 export default function Trivia({
   setStop,
@@ -12,8 +13,7 @@ export default function Trivia({
   questionNumber,
   questions,
   setEarned,
-  setIsPlaying,
-  onStateChange   // 🔥 NEW PROP
+  setIsPlaying
 }) {
   const [question, setQuestion] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -45,20 +45,6 @@ export default function Trivia({
     if (setIsPlaying) setIsPlaying(true);
   }, [questionNumber, questions, setIsPlaying]);
 
-  // 🔥 SEND STATE TO APP FOR AUDIENCE
-  useEffect(() => {
-    if (onStateChange) {
-      onStateChange({
-        question,
-        selectedAnswer,
-        className,
-        showNext,
-        showCorrect,
-        answersDisabled
-      });
-    }
-  }, [question, selectedAnswer, className, showNext, showCorrect, answersDisabled, onStateChange]);
-
   const delay = (duration, callback) => {
     setTimeout(callback, duration);
   };
@@ -67,6 +53,7 @@ export default function Trivia({
     if (answersDisabled) return;
 
     if (selectedAnswer === a && clickedOnce) {
+
       if (setIsPlaying) setIsPlaying(false);
 
       setClassName("answer active");
@@ -81,6 +68,7 @@ export default function Trivia({
         delay(5000, () => {
           correctAnswer();
 
+          // ✅ IF LAST QUESTION → DIRECT FINISH
           if (questionNumber === questions.length) {
             setEarned("5000");
             setStop(true);
@@ -127,16 +115,40 @@ export default function Trivia({
   };
 
   return (
-    <QuestionBoard
-      question={question}
-      selectedAnswer={selectedAnswer}
-      className={className}
-      showCorrect={showCorrect}
-      showNext={showNext}
-      answersDisabled={answersDisabled}
-      onAnswerClick={handleClick}
-      onNextClick={handleNext}
-      isClickable={true}
-    />
+    <div className='trivia'>
+      <div className="question">{question?.question}</div>
+
+      <div className="answers">
+        {question?.answers
+          .filter(a => !a.removed)
+          .map((a, index) => (
+            <div
+              key={a.text}
+              className={`${
+                selectedAnswer === a
+                  ? className
+                  : showCorrect && a.correct
+                  ? "answer correct"
+                  : "answer"
+              }`}
+              onClick={() => handleClick(a)}
+              style={{ pointerEvents: answersDisabled ? 'none' : 'auto' }}
+            >
+              <span className="answer-label">
+                {String.fromCharCode(65 + index)}.
+              </span>
+              <span className="answer-text">{a.text}</span>
+            </div>
+          ))}
+      </div>
+
+      {showNext && (
+        <div className="floating-next-button">
+          <button className="next-play-button" onClick={handleNext}>
+            ▶
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
